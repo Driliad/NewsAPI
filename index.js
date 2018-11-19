@@ -36,7 +36,7 @@ class Loader{
 }
 class AppLoader extends Loader{
 	constructor(){
-		super('https://newsapi.org/v2/', { apiKey: 'bb07861bb29c465a85e2835c4e010c9f' });
+		super('https://newsapi.org/v2/', { apiKey: '67c1acd35f714c8da11288faf6e12bcf' });
 	}
 }
 class AppController extends AppLoader{
