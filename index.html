@@ -13,8 +13,12 @@
         <h1>PewNews</h1>
     </header>
     <main>
-        <nav class="sources buttons"></nav>
-        <div class="news"></div>
+        <nav class="sources buttons">
+            <img src="./img/sources_spiner.gif" alt="sources_spiner" width="70" class="spiner sources__spiner">
+        </nav>
+        <div class="news">
+            <img src="./img/news_spiner.gif" alt="news_spiner" width="100" class="spiner news__spiner hidden">
+        </div>
     </main>
     <footer>
         <p class="copyright">Copyright <a href="https://newsapi.org">NewsAPI</a></p>
@@ -47,5 +51,16 @@
     </template>
 
     <script src="./index.js"></script>
+
+    <script src="./js/Loader.js"></script>
+    <script src="./js/NewsAPILoader.js"></script>
+    <script src="./js/AppController.js"></script>
+
+    <script src="./js/News.js"></script>
+    <script src="./js/Sources.js"></script>
+    <script src="./js/AppView.js"></script>
+
+    <script src="./js/App.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 </html>
