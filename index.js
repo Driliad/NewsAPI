@@ -11095,8 +11095,8 @@ function () {
 
       for (var i = 0; i < newsCount; i++) {
         var item = data[i];
-        var newsClone = newsItemTemp.content.cloneNode(true);
-        if (i % 2) newsClone.querySelector('.news__item').classList.add('alt');
+        var newsClone = newsItemTemp.content ? newsItemTemp.content.cloneNode(true).querySelector('.news__item') : newsItemTemp.querySelector('.news__item').cloneNode(true);
+        if (i % 2) newsClone.classList.add('alt');
         newsClone.querySelector('.news__meta-photo').style.backgroundImage = "url(".concat(item.urlToImage || 'img/news_placeholder.jpg', ")");
         newsClone.querySelector('.news__meta-author').textContent = item.author || item.source.name;
         newsClone.querySelector('.news__meta-date').textContent = item.publishedAt.slice(0, 10).split('-').reverse().join('-');
@@ -11145,9 +11145,10 @@ function () {
 
       for (var i = 0; i < data.length; i++) {
         var item = data[i];
-        var sourceClone = sourceItemTemp.content.cloneNode(true);
+        console.log(sourceItemTemp.querySelector('.source__item'));
+        var sourceClone = !sourceItemTemp.content ? sourceItemTemp.content.cloneNode(true).querySelector('.source__item') : sourceItemTemp.querySelector('.source__item').cloneNode(true);
         sourceClone.querySelector('.source__item-name').textContent = item.name;
-        sourceClone.querySelector('.source__item').setAttribute('data-source-id', item.id);
+        sourceClone.setAttribute('data-source-id', item.id);
         fragment.appendChild(sourceClone);
       }
 
