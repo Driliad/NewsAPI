@@ -1,5 +1,35 @@
 "use strict";
 
+var _customFetch = function _customFetch(url, obj) {
+  return new Promise(function (resolve, reject) {
+    var xhr = new XMLHttpRequest();
+    xhr.open(obj.method || "GET", url);
+
+    if (obj.headers) {
+      Object.keys(obj.headers).forEach(function (key) {
+        xhr.setRequestHeader(key, obj.headers[key]);
+      });
+    }
+
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(new Response(xhr.response));
+      } else {
+        reject(xhr.statusText);
+      }
+    };
+
+    xhr.onerror = function () {
+      return reject(xhr.statusText);
+    };
+
+    xhr.send(obj.body);
+  });
+};
+
+if (!window.fetch) window.fetch = _customFetch;
+"use strict";
+
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function e(t, n, r) {
@@ -10794,11 +10824,6 @@ function () {
   }
 
   _createClass(Loader, [{
-    key: "_load",
-    value: function _load(args) {
-      window.fetch ? this._asyncLoad(args) : this._xmlHttpLoad(args);
-    }
-  }, {
     key: "getResp",
     value: function getResp(props) {
       var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {
@@ -10847,9 +10872,9 @@ function () {
       return "".concat(this.baseLink).concat(endpoint, "?").concat(urlOptions2);
     }
   }, {
-    key: "_asyncLoad",
+    key: "_load",
     value: function () {
-      var _asyncLoad2 = _asyncToGenerator(
+      var _load2 = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(_ref2) {
         var method, callback, props, res;
@@ -10893,8 +10918,8 @@ function () {
         }, _callee, this, [[1, 14]]);
       }));
 
-      return function _asyncLoad(_x) {
-        return _asyncLoad2.apply(this, arguments);
+      return function _load(_x) {
+        return _load2.apply(this, arguments);
       };
     }()
   }, {
@@ -10911,49 +10936,6 @@ function () {
         return callback(data);
       }).catch(function (err) {
         return console.error(err);
-      });
-    }
-  }, {
-    key: "_xmlHttpLoad",
-    value: function _xmlHttpLoad(_ref4) {
-      var method = _ref4.method,
-          callback = _ref4.callback,
-          props = _ref4.props;
-
-      this._customFetch(this.createUrl(props), {
-        method: method
-      }).then(function (data) {
-        return callback(JSON.parse(data));
-      }).catch(function (err) {
-        return console.error(err);
-      });
-    }
-  }, {
-    key: "_customFetch",
-    value: function _customFetch(url, obj) {
-      return new Promise(function (resolve, reject) {
-        var xhr = new XMLHttpRequest();
-        xhr.open(obj.method || "GET", url);
-
-        if (obj.headers) {
-          Object.keys(obj.headers).forEach(function (key) {
-            xhr.setRequestHeader(key, obj.headers[key]);
-          });
-        }
-
-        xhr.onload = function () {
-          if (xhr.status >= 200 && xhr.status < 300) {
-            resolve(xhr.response);
-          } else {
-            reject(xhr.statusText);
-          }
-        };
-
-        xhr.onerror = function () {
-          return reject(xhr.statusText);
-        };
-
-        xhr.send(obj.body);
       });
     }
   }]);
