@@ -11146,7 +11146,7 @@ function () {
       for (var i = 0; i < data.length; i++) {
         var item = data[i];
         console.log(sourceItemTemp.querySelector('.source__item'));
-        var sourceClone = !sourceItemTemp.content ? sourceItemTemp.content.cloneNode(true).querySelector('.source__item') : sourceItemTemp.querySelector('.source__item').cloneNode(true);
+        var sourceClone = sourceItemTemp.content ? sourceItemTemp.content.cloneNode(true).querySelector('.source__item') : sourceItemTemp.querySelector('.source__item').cloneNode(true);
         sourceClone.querySelector('.source__item-name').textContent = item.name;
         sourceClone.setAttribute('data-source-id', item.id);
         fragment.appendChild(sourceClone);
