@@ -10796,7 +10796,7 @@ function () {
   _createClass(Loader, [{
     key: "_load",
     value: function _load(args) {
-      !window.fetch ? this._asyncLoad(args) : this._xmlHttpLoad(args);
+      window.fetch ? this._asyncLoad(args) : this._xmlHttpLoad(args);
     }
   }, {
     key: "getResp",
