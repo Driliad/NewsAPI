@@ -11042,6 +11042,7 @@ function (_NewsAPILoader) {
     value: function getNews(e, callback) {
       var target = e.target;
       var sourcesContainer = e.currentTarget;
+      if (document.querySelector('.news__spiner')) document.querySelector('.news__spiner').classList.remove('hidden');
 
       while (target != sourcesContainer) {
         if (target.classList.contains('source__item')) {
@@ -11092,6 +11093,7 @@ function () {
       var newsCount = data.length >= 10 ? 10 : data.length;
       var fragment = document.createDocumentFragment();
       var newsItemTemp = document.querySelector('#newsItemTemp');
+      var news = document.querySelector('.news');
 
       for (var i = 0; i < newsCount; i++) {
         var item = data[i];
@@ -11107,8 +11109,8 @@ function () {
         fragment.appendChild(newsClone);
       }
 
-      document.querySelector('.news').innerHTML = '';
-      document.querySelector('.news').appendChild(fragment);
+      news.innerHTML = '';
+      news.appendChild(fragment);
     }
   }, {
     key: "_newState",
@@ -11142,6 +11144,7 @@ function () {
       this._newState = data;
       var fragment = document.createDocumentFragment();
       var sourceItemTemp = document.querySelector('#sourceItemTemp');
+      var sources = document.querySelector('.sources');
 
       for (var i = 0; i < data.length; i++) {
         var item = data[i];
@@ -11151,7 +11154,8 @@ function () {
         fragment.appendChild(sourceClone);
       }
 
-      document.querySelector('.sources').appendChild(fragment);
+      sources.innerHTML = '';
+      sources.appendChild(fragment);
     }
   }, {
     key: "_newState",
