@@ -65,6 +65,10 @@ footer .copyright:before{
   margin: 0 auto;
 }
 
+.news__spiner{
+  margin: 50px auto;
+}
+
 /****************** Links to channels *******************/
 
 .sources{
