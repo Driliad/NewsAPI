@@ -10787,10 +10787,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Loader =
 /*#__PURE__*/
 function () {
-  function Loader(baseLink, options) {
+  function Loader(baseLink, settings) {
     _classCallCheck(this, Loader);
 
-    this.baseLink = baseLink, this.options = options;
+    this.baseLink = baseLink, this.settings = settings;
   }
 
   _createClass(Loader, [{
@@ -10841,10 +10841,10 @@ function () {
     value: function createUrl(_ref) {
       var endpoint = _ref.endpoint,
           options = _ref.options;
-      var urlOptions2 = Object.entries(_objectSpread({}, this.options, options)).map(function (el) {
+      var urlOptions = Object.entries(_objectSpread({}, this.settings, options)).map(function (el) {
         return el.join('=');
       }).join('&');
-      return "".concat(this.baseLink).concat(endpoint, "?").concat(urlOptions2);
+      return "".concat(this.baseLink).concat(endpoint, "?").concat(urlOptions);
     }
   }, {
     key: "_asyncLoad",
@@ -11087,6 +11087,19 @@ function () {
   }
 
   _createClass(News, [{
+    key: "createItem",
+    value: function createItem(newsClone, item, i) {
+      if (i % 2) newsClone.classList.add('alt');
+      newsClone.querySelector('.news__meta-photo').style.backgroundImage = "url(".concat(item.urlToImage || 'img/news_placeholder.jpg', ")");
+      newsClone.querySelector('.news__meta-author').textContent = item.author || item.source.name;
+      newsClone.querySelector('.news__meta-date').textContent = item.publishedAt.slice(0, 10).split('-').reverse().join('-');
+      newsClone.querySelector('.news__description-title').textContent = item.title;
+      newsClone.querySelector('.news__description-source').textContent = item.source.name;
+      newsClone.querySelector('.news__description-content').textContent = item.description;
+      newsClone.querySelector('.news__read-more a').setAttribute('href', item.url);
+      return newsClone;
+    }
+  }, {
     key: "draw",
     value: function draw(data) {
       this._newState = data;
@@ -11096,17 +11109,8 @@ function () {
       var news = document.querySelector('.news');
 
       for (var i = 0; i < newsCount; i++) {
-        var item = data[i];
         var newsClone = newsItemTemp.content ? newsItemTemp.content.cloneNode(true).querySelector('.news__item') : newsItemTemp.querySelector('.news__item').cloneNode(true);
-        if (i % 2) newsClone.classList.add('alt');
-        newsClone.querySelector('.news__meta-photo').style.backgroundImage = "url(".concat(item.urlToImage || 'img/news_placeholder.jpg', ")");
-        newsClone.querySelector('.news__meta-author').textContent = item.author || item.source.name;
-        newsClone.querySelector('.news__meta-date').textContent = item.publishedAt.slice(0, 10).split('-').reverse().join('-');
-        newsClone.querySelector('.news__description-title').textContent = item.title;
-        newsClone.querySelector('.news__description-source').textContent = item.source.name;
-        newsClone.querySelector('.news__description-content').textContent = item.description;
-        newsClone.querySelector('.news__read-more a').setAttribute('href', item.url);
-        fragment.appendChild(newsClone);
+        fragment.appendChild(this.createItem(newsClone, data[i], i));
       }
 
       news.innerHTML = '';
@@ -11139,6 +11143,13 @@ function () {
   }
 
   _createClass(Sources, [{
+    key: "createItem",
+    value: function createItem(sourceClone, item) {
+      sourceClone.querySelector('.source__item-name').textContent = item.name;
+      sourceClone.setAttribute('data-source-id', item.id);
+      return sourceClone;
+    }
+  }, {
     key: "draw",
     value: function draw(data) {
       this._newState = data;
@@ -11147,11 +11158,8 @@ function () {
       var sources = document.querySelector('.sources');
 
       for (var i = 0; i < data.length; i++) {
-        var item = data[i];
         var sourceClone = sourceItemTemp.content ? sourceItemTemp.content.cloneNode(true).querySelector('.source__item') : sourceItemTemp.querySelector('.source__item').cloneNode(true);
-        sourceClone.querySelector('.source__item-name').textContent = item.name;
-        sourceClone.setAttribute('data-source-id', item.id);
-        fragment.appendChild(sourceClone);
+        fragment.appendChild(this.createItem(sourceClone, data[i]));
       }
 
       sources.innerHTML = '';
